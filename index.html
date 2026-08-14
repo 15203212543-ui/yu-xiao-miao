@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1d2a22">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="于小喵">
+  <title>于小喵 · 门店经营</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">YU XIAO MIAO · STORE OPS</p><h1 id="pageTitle">今日经营</h1></div><button class="avatar" data-view="settings">于</button></header>
+
+    <section class="view active" id="todayView">
+      <section class="datebar"><button id="prev">‹</button><div><b id="today"></b><span id="weekday"></span></div><button id="next">›</button></section>
+      <section class="hero"><div class="hero-top"><span>今日预估营收</span><span id="appointmentCount">0 个预约</span></div><strong id="todayRevenue">¥0</strong><div class="hero-foot"><span>已完成 <b id="doneCount">0</b></span><span>待服务 <b id="pendingCount">0</b></span><span>净收入 <b id="netRevenue">¥0</b></span></div></section>
+      <div class="quick"><button data-open="appointment"><i>＋</i><span>新预约</span></button><button data-open="income"><i>↗</i><span>记收入</span></button><button data-open="expense"><i>↘</i><span>记支出</span></button><button data-open="task"><i>✓</i><span>加待办</span></button></div>
+      <section class="section"><div class="title"><h2>今日安排</h2><button data-open="task">添加 ›</button></div><div id="tasks" class="list"></div></section>
+      <section class="section"><div class="title"><h2>预约记录</h2><button data-view="appointments">全部 ›</button></div><div id="todayAppointments" class="list"></div></section>
+      <section class="section"><div class="title"><h2>经营概览</h2><button data-view="operations">查看分析 ›</button></div><div class="metrics"><div><span>本月收入</span><b id="homeMonthIncome">¥0</b></div><div><span>本月支出</span><b id="homeMonthExpense">¥0</b></div><div><span>本月净收入</span><b id="homeMonthNet">¥0</b></div><div><span>已完成服务</span><b id="homeStaffDone">0</b></div></div></section>
+    </section>
+
+    <section class="view" id="appointmentsView">
+      <div class="view-tools"><input id="appointmentDate" type="date"><button class="primary-small" data-open="appointment">＋ 新预约</button></div>
+      <div class="segmented" id="statusFilter"><button class="active" data-status="全部">全部</button><button data-status="待服务">待服务</button><button data-status="已完成">已完成</button><button data-status="已取消">已取消</button></div>
+      <div class="summary-strip"><div><b id="filterCount">0</b><span>预约</span></div><div><b id="filterRevenue">¥0</b><span>预计收入</span></div><div><b id="filterCompletion">0%</b><span>完成率</span></div></div>
+      <div id="appointmentList" class="appointment-list"></div>
+    </section>
+
+    <section class="view" id="operationsView">
+      <div class="view-tools"><input id="operationMonth" type="month"><button class="secondary-small" id="export">导出 CSV</button></div>
+      <section class="kpi-grid"><div class="kpi income"><span>营业收入</span><b id="monthIncome">¥0</b><small>实际到账流水</small></div><div class="kpi expense"><span>营业支出</span><b id="monthExpense">¥0</b><small>门店经营支出</small></div><div class="kpi net"><span>净收入</span><b id="monthNet">¥0</b><small>收入减支出</small></div><div class="kpi"><span>平均客单价</span><b id="avgTicket">¥0</b><small>已完成服务</small></div></section>
+      <section class="section"><div class="title"><h2>近 7 日收支</h2></div><div class="chart" id="bars"></div></section>
+      <section class="section"><div class="title"><h2>员工业绩</h2></div><div class="staff-list" id="staffPerformance"></div></section>
+      <section class="section"><div class="title"><h2>收支明细</h2><button data-open="income">添加 ›</button></div><div class="list" id="flowList"></div></section>
+    </section>
+
+    <section class="view" id="settingsView">
+      <section class="settings-group"><h2>门店设置</h2><label>门店名称<input id="storeName" value="于小喵宠物店"></label><label>月度支出预算<input id="monthlyBudget" type="number" inputmode="decimal" value="8000"></label><button class="save-settings" id="saveSettings">保存设置</button></section>
+      <section class="settings-group"><div class="title"><h2>员工管理</h2><button id="addStaff">添加 ›</button></div><div id="staffSettings"></div></section>
+      <section class="settings-group"><h2>数据与备份</h2><button class="setting-row" id="settingsExport"><span>导出经营流水</span><b>CSV ›</b></button><button class="setting-row danger" id="clearData"><span>清空本机数据</span><b>›</b></button><p class="settings-note">当前数据仅保存在此设备。两台设备同步需要下一阶段接入云数据库。</p></section>
+      <section class="settings-group about"><h2>关于</h2><p>于小喵门店经营助手 · 版本 1.2</p></section>
+    </section>
+  </main>
+
+  <button class="fab" id="voiceFab" data-open="voice">● 语音记一笔</button>
+  <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>预约</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
+  <div class="toast" id="toast"></div>
+  <div class="modal hidden" id="modal"><div class="panel"><div class="panel-head"><h2 id="modalTitle">新建记录</h2><button id="close">×</button></div><div id="form"></div></div></div>
+  <script src="app.js"></script>
+  <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))</script>
+</body></html>
