@@ -19,13 +19,11 @@
       <section class="datebar"><button id="prev">‹</button><div><b id="today"></b><span id="weekday"></span></div><button id="next">›</button></section>
       <section class="hero"><div class="hero-top"><span>今日预估营收</span><span id="appointmentCount">0 个预约</span></div><strong id="todayRevenue">¥0</strong><div class="hero-foot"><span>已完成 <b id="doneCount">0</b></span><span>待服务 <b id="pendingCount">0</b></span><span>净收入 <b id="netRevenue">¥0</b></span></div></section>
       <div class="quick"><button data-open="record"><i>＋</i><span>记一笔</span></button><button data-open="appointment"><i>◷</i><span>新预约</span></button><button data-open="expense"><i>↘</i><span>记支出</span></button><button data-open="task"><i>✓</i><span>加待办</span></button></div>
-      <section class="section"><div class="title"><h2>今日安排</h2><button data-open="task">添加 ›</button></div><div id="tasks" class="list"></div></section>
-      <section class="section"><div class="title"><h2>预约记录</h2><button data-view="appointments">全部 ›</button></div><div id="todayAppointments" class="list"></div></section>
-      <section class="section"><div class="title"><h2>经营概览</h2><button data-view="operations">查看分析 ›</button></div><div class="metrics"><div><span>本月收入</span><b id="homeMonthIncome">¥0</b></div><div><span>本月支出</span><b id="homeMonthExpense">¥0</b></div><div><span>本月净收入</span><b id="homeMonthNet">¥0</b></div><div><span>已完成服务</span><b id="homeStaffDone">0</b></div></div></section>
+      <section class="section"><div class="title"><h2>今日工作安排</h2><button data-open="task">添加 ›</button></div><div id="tasks" class="list"></div></section>
     </section>
 
     <section class="view" id="appointmentsView">
-      <div class="view-tools"><input id="appointmentDate" type="date"><button class="primary-small" data-open="appointment">＋ 新预约</button></div>
+      <div class="view-tools"><input id="appointmentDate" type="date"><button class="primary-small" data-open="appointment">＋ 新预约</button></div><div class="period-tabs" id="periodFilter"><button class="active" data-period="day">日</button><button data-period="week">周</button><button data-period="month">月</button><button data-period="quarter">季</button><button data-period="year">年</button></div>
       <div class="segmented" id="statusFilter"><button class="active" data-status="全部">全部</button><button data-status="待服务">待服务</button><button data-status="已完成">已完成</button><button data-status="已取消">已取消</button></div>
       <div class="summary-strip"><div><b id="filterCount">0</b><span>预约</span></div><div><b id="filterRevenue">¥0</b><span>预计收入</span></div><div><b id="filterCompletion">0%</b><span>完成率</span></div></div>
       <div id="appointmentList" class="appointment-list"></div>
@@ -48,9 +46,9 @@
   </main>
 
   <button class="fab" id="voiceFab" data-open="record">＋ 记一笔</button>
-  <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>预约</small></button><button class="nav-add" data-open="record"><span>＋</span><small>记一笔</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
+  <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>接单</small></button><button class="nav-add" data-open="record"><span>＋</span><small>记一笔</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
   <div class="toast" id="toast"></div>
   <div class="modal hidden" id="modal"><div class="panel"><div class="panel-head"><h2 id="modalTitle">新建记录</h2><button id="close">×</button></div><div id="form"></div></div></div>
-  <script src="app.js?v=20260814"></script><script src="record.js?v=20260814"></script>
+  <script src="app.js?v=20260814"></script><script src="record.js?v=20260814"></script><script src="orders.js?v=20260814"></script>
   <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))</script>
 </body></html>
