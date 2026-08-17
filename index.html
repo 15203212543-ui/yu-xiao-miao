@@ -20,6 +20,7 @@
       <section class="hero"><div class="hero-top"><span>今日预估营收</span><span id="appointmentCount">0 个预约</span></div><strong id="todayRevenue">¥0</strong><div class="hero-foot"><span>已完成 <b id="doneCount">0</b></span><span>待服务 <b id="pendingCount">0</b></span><span>净收入 <b id="netRevenue">¥0</b></span></div></section>
       <div class="quick"><button data-open="record"><i>＋</i><span>记一笔</span></button><button data-open="appointment"><i>◷</i><span>新预约</span></button><button data-open="expense"><i>↘</i><span>记支出</span></button><button data-open="task"><i>✓</i><span>加待办</span></button></div>
       <section class="section"><div class="title"><h2>今日工作安排</h2><button data-open="task">添加 ›</button></div><div id="tasks" class="list"></div></section>
+      <div class="compat-hidden" aria-hidden="true"><div id="todayAppointments"></div><span id="homeMonthIncome"></span><span id="homeMonthExpense"></span><span id="homeMonthNet"></span><span id="homeStaffDone"></span></div>
     </section>
 
     <section class="view" id="appointmentsView">
@@ -49,6 +50,6 @@
   <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>接单</small></button><button class="nav-add" data-open="record"><span>＋</span><small>记一笔</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
   <div class="toast" id="toast"></div>
   <div class="modal hidden" id="modal"><div class="panel"><div class="panel-head"><h2 id="modalTitle">新建记录</h2><button id="close">×</button></div><div id="form"></div></div></div>
-  <script src="app.js?v=20260814"></script><script src="record.js?v=20260814"></script><script src="orders.js?v=20260814"></script>
+  <script src="app.js?v=20260817"></script><script src="record.js?v=20260817"></script><script src="orders.js?v=20260817"></script><script src="selected-day.js?v=20260817"></script>
   <script>if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'))</script>
 </body></html>

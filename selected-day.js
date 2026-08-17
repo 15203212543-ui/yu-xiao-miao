@@ -1,0 +1,6 @@
+(function(){
+  const KEY='yu-xiao-miao-v2',read=()=>JSON.parse(localStorage.getItem(KEY)||'{}');
+  function selectedDate(){const text=document.getElementById('today').textContent,match=text.match(/(\d{4})年(\d{1,2})月(\d{1,2})日/);return match?`${match[1]}-${match[2].padStart(2,'0')}-${match[3].padStart(2,'0')}`:new Date().toISOString().slice(0,10)}
+  function render(){const db=read(),date=selectedDate(),tasks=(db.tasks||[]).filter(x=>!x.date||x.date===date).map(x=>({time:x.time||'待定',pet:'待办',project:x.text,staff:'-',done:x.done,id:x.id})),orders=(db.appointments||[]).filter(x=>x.date===date&&x.status!=='已取消').map(x=>({time:x.time,pet:x.pet,project:x.service,staff:x.staff,done:x.status==='已完成'})),all=tasks.concat(orders).sort((a,b)=>a.time.localeCompare(b.time)),el=document.getElementById('tasks');if(!el)return;el.innerHTML=all.map(x=>`<div class="task ${x.done?'done':''}"><div class="task-left"><button class="check" ${x.id?'data-task="'+x.id+'"':''}>${x.done?'✓':''}</button><span class="task-text"><b>${x.time}</b>　${x.pet} · ${x.project} · ${x.staff}</span></div></div>`).join('')||'<p class="empty">所选日期暂无安排</p>'}
+  document.addEventListener('click',event=>{if(event.target.closest('#prev,#next,[data-view="today"]'))setTimeout(render,30)});setTimeout(render,100);
+})();
