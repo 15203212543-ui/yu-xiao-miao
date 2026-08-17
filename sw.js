@@ -1,4 +1,4 @@
-const CACHE='yu-xiao-miao-pwa-v5';
+const CACHE='yu-xiao-miao-pwa-v6';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./app.js?v=20260814','./record.js','./record.js?v=20260814','./orders.js','./orders.js?v=20260814','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
