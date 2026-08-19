@@ -6,8 +6,11 @@ let day=iso(now),activeStatus='全部',mode='task';
 const initial={settings:{storeName:'于小喵宠物店',monthlyBudget:8000},staff:['小喵','于于'],tasks:[{id:1,date:day,text:'给奶糖回访洗护效果',time:'09:30',done:false},{id:2,date:day,text:'补充洗护用品库存',time:'14:00',done:false}],appointments:[{id:11,date:day,time:'10:00',pet:'豆豆',owner:'王女士',phone:'',service:'基础洗护',staff:'小喵',amount:128,status:'待服务'},{id:12,date:day,time:'13:30',pet:'奶糖',owner:'李先生',phone:'',service:'造型美容',staff:'于于',amount:198,status:'已确认'}],flows:[{id:21,date:day,type:'income',cat:'服务收入',note:'昨日服务结算',amount:128,staff:'小喵'},{id:22,date:day,type:'expense',cat:'耗材采购',note:'洗护用品',amount:320},{id:23,date:iso(new Date(now.getTime()-86400000)),type:'income',cat:'服务收入',note:'奶糖 · 美容',amount:198,staff:'于于'}]};
 function load(){const saved=localStorage.getItem(KEY);if(saved)return JSON.parse(saved);const old=localStorage.getItem(oldKey);if(old){const data=JSON.parse(old);return {...initial,tasks:(data.tasks||[]).map((x,i)=>({...x,id:Date.now()+i,date:x.date||day})),appointments:(data.appointments||[]).map((x,i)=>({...x,id:Date.now()+100+i,date:x.date||day})),flows:data.flows||initial.flows}}return structuredClone(initial)}
 let db=load();
-// Future appointments cannot be completed before their scheduled time; repair legacy records created by older builds.
-db.appointments.forEach(order=>{if(order.date>iso(now)&&order.status==='已完成'&&!db.flows.some(flow=>flow.appointmentId===order.id))order.status='待服务'});
+// A future appointment is never completed at creation time. Repair legacy records and their accidental future income.
+const currentStamp=()=>{const d=new Date();return `${iso(d)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`};
+const nowStamp=currentStamp();
+db.appointments.forEach(order=>{const scheduled=`${order.date} ${order.time||'23:59'}`;if(scheduled>nowStamp&&order.status==='已完成'){order.status='待服务';db.flows=db.flows.filter(flow=>flow.appointmentId!==order.id)}});
+save();
 const $=id=>document.getElementById(id),money=n=>'¥'+Number(n||0).toLocaleString('zh-CN',{maximumFractionDigits:2}),sum=a=>a.reduce((s,x)=>s+Number(x.amount||0),0);
 const save=()=>localStorage.setItem(KEY,JSON.stringify(db));
 function toast(text){$('toast').textContent=text;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
