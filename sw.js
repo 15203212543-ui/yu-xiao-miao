@@ -4,14 +4,14 @@ self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET')return;
-  event.respondWith(fetch(event.request).then(response=>{
-    if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy))}
-    return response;
-  }).catch(async()=>{
-    const exact=await caches.match(event.request);if(exact)return exact;
-    const url=new URL(event.request.url),name=url.pathname.split('/').pop();
-    if(name){const asset=await caches.match('./'+name);if(asset)return asset}
-    if(event.request.mode==='navigate')return caches.match('./index.html');
-    return new Response('',{status:503,statusText:'Offline asset unavailable'});
+  // Static app assets use cache-first so the installed PWA opens immediately.
+  // A background request refreshes the cache for the next launch.
+  event.respondWith(caches.match(event.request).then(cached=>{
+    const refresh=fetch(event.request).then(response=>{
+      if(response.ok)caches.open(CACHE).then(cache=>cache.put(event.request,response.clone()));
+      return response;
+    }).catch(()=>null);
+    if(cached){event.waitUntil(refresh);return cached;}
+    return refresh.then(response=>response||caches.match('./index.html'));
   }));
 });
