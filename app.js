@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var KEY='yu-xiao-miao-v2',OLD='yu-xiao-miao-v1',today=dateText(new Date());
-var state={day:today,view:'today',period:'day',status:'全部',modal:null};
+var state={day:today,view:'appointments',period:'day',status:'全部',modal:null};
 var EMPTY={settings:{storeName:'于小喵宠物店',monthlyBudget:8000},staff:['小喵','于于'],tasks:[],appointments:[],flows:[],members:[],memberTransactions:[]};
 var db=load();
 function $(id){return document.getElementById(id)}
@@ -19,7 +19,7 @@ function allocations(o){if(Array.isArray(o.staffAllocations)&&o.staffAllocations
 function totalAmount(o){return Number(o.totalAmount||o.amount||0)}
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(function(){$('toast').classList.remove('show')},1800)}
 function closeModal(){$('modal').classList.add('hidden');state.modal=null}
-function setView(v){if(!$(v+'View'))return;state.view=v;document.querySelectorAll('.view').forEach(function(x){x.classList.toggle('active',x.id===v+'View')});document.querySelectorAll('nav [data-view]').forEach(function(x){x.classList.toggle('active',x.dataset.view===v)});$('pageTitle').textContent={today:'今日经营',appointments:'预约管理',operations:'经营分析',members:'会员中心',settings:'门店设置'}[v];$('voiceFab').classList.toggle('hidden',v==='settings'||v==='members');render();window.scrollTo(0,0)}
+function setView(v){if(!$(v+'View'))return;state.view=v;document.querySelectorAll('.view').forEach(function(x){x.classList.toggle('active',x.id===v+'View')});document.querySelectorAll('nav [data-view]').forEach(function(x){x.classList.toggle('active',x.dataset.view===v)});$('pageTitle').textContent={today:'今日经营',appointments:'今日与接单',operations:'经营分析',members:'会员中心',settings:'门店设置'}[v];$('voiceFab').classList.toggle('hidden',v==='settings'||v==='members');render();window.scrollTo(0,0)}
 function render(){if(state.view==='today')renderToday();if(state.view==='appointments')renderOrders();if(state.view==='operations')renderOperations();if(state.view==='members')renderMembers();if(state.view==='settings')renderSettings()}
 function renderMembers(){var q=($('memberSearch').value||'').trim(),list=db.members.filter(function(m){return !q||m.name.indexOf(q)>=0||m.phone.indexOf(q)>=0});$('memberCount').textContent=db.members.length;$('memberBalance').textContent=money(db.members.reduce(function(s,m){return s+Number(m.balance||0)},0));$('memberList').innerHTML=list.map(function(m){var packs=(m.packages||[]).map(function(p){return p.name+' '+p.remaining+'/'+p.total+'次'}).join('、');return'<div class="record"><div class="record-icon">会</div><div class="record-main"><b>'+html(m.name)+' · '+html(m.phone)+'</b><span>余额 '+money(m.balance)+(packs?' · '+html(packs):'')+'</span></div><button class="secondary-small" data-action="recharge-member" data-id="'+m.id+'">充值</button></div>'}).join('')||'<p class="empty">暂无会员</p>'}
 function taskRow(t){return'<div class="task '+(t.done?'done ':'')+(t.cancelled?'cancelled':'')+'"><div class="task-left"><button class="check" data-action="toggle-task" data-id="'+t.id+'">'+(t.done?'✓':'')+'</button><span class="task-text">'+html(t.text)+'</span></div><span class="task-time">'+html(t.time||'待定')+'</span><div class="order-menu"><button class="more-btn" data-action="menu">⋯</button><div class="menu-pop hidden"><button data-action="edit-task" data-id="'+t.id+'">修改</button><button data-action="cancel-task" data-id="'+t.id+'">'+(t.cancelled?'恢复':'取消')+'</button><button data-action="delete-task" data-id="'+t.id+'">删除</button></div></div></div>'}
