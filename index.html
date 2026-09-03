@@ -44,12 +44,18 @@
       <section class="settings-group"><h2>数据与备份</h2><button class="setting-row" id="settingsExport"><span>导出经营流水</span><b>CSV ›</b></button><button class="setting-row danger" id="clearData"><span>清空本机数据</span><b>›</b></button><p class="settings-note">当前数据仅保存在此设备。两台设备同步需要下一阶段接入云数据库。</p></section>
       <section class="settings-group about"><h2>关于</h2><p>于小喵门店经营助手 · 版本 1.2</p></section>
     </section>
+
+    <section class="view" id="membersView">
+      <div class="view-tools"><input id="memberSearch" placeholder="搜索会员姓名或手机号"><button class="primary-small" data-open="member">＋ 新会员</button></div>
+      <section class="kpi-grid"><div class="kpi"><span>会员数</span><b id="memberCount">0</b></div><div class="kpi income"><span>储值余额</span><b id="memberBalance">¥0</b></div></section>
+      <section class="section"><div class="title"><h2>会员列表</h2></div><div class="list" id="memberList"></div></section>
+    </section>
   </main>
 
   <button class="fab" id="voiceFab" data-open="record">＋ 记一笔</button>
-  <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>接单</small></button><button class="nav-add" data-open="record"><span>＋</span><small>记一笔</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
+  <nav><button class="active" data-view="today"><span>⌂</span><small>今日</small></button><button data-view="appointments"><span>◷</span><small>接单</small></button><button class="nav-add" data-open="record"><span>＋</span><small>记一笔</small></button><button data-view="operations"><span>◒</span><small>经营</small></button><button data-view="members"><span>♙</span><small>会员</small></button><button data-view="settings"><span>⚙</span><small>设置</small></button></nav>
   <div class="toast" id="toast"></div>
   <div class="modal hidden" id="modal"><div class="panel"><div class="panel-head"><h2 id="modalTitle">新建记录</h2><button id="close">×</button></div><div id="form"></div></div></div>
-  <script src="app.js?v=20260902-split"></script>
+  <script src="app.js?v=20260903-members"></script>
   <script>if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').then(function(reg){reg.update()}).catch(function(err){console.error('PWA registration failed',err)})})</script>
 </body></html>
