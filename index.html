@@ -24,7 +24,7 @@
     </section>
 
     <section class="view active" id="appointmentsView">
-      <div class="view-tools"><input id="appointmentDate" type="date"><button class="primary-small" data-open="appointment">＋ 新预约</button></div><div class="period-tabs" id="periodFilter"><button class="active" data-period="day">日</button><button data-period="week">周</button><button data-period="month">月</button><button data-period="quarter">季</button><button data-period="year">年</button></div>
+      <div class="title"><h2>订单安排</h2><button class="primary-small" data-open="appointment">＋ 新预约</button></div><div class="view-tools"><input id="appointmentDate" type="date"><input id="petSearch" placeholder="搜索宠物姓名"><button class="secondary-small" data-action="today-orders">今天</button></div><div class="period-tabs" id="periodFilter"><button class="active" data-period="day">日</button><button data-period="week">周</button><button data-period="month">月</button><button data-period="quarter">季</button><button data-period="year">年</button></div>
       <div class="segmented" id="statusFilter"><button class="active" data-status="全部">全部</button><button data-status="待服务">待服务</button><button data-status="已完成">已完成</button><button data-status="已取消">已取消</button></div>
       <div class="summary-strip"><div><b id="filterCount">0</b><span>预约</span></div><div><b id="filterRevenue">¥0</b><span>预计收入</span></div><div><b id="filterCompletion">0%</b><span>完成率</span></div></div>
       <div id="appointmentList" class="appointment-list"></div>

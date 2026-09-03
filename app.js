@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var KEY='yu-xiao-miao-v2',OLD='yu-xiao-miao-v1',today=dateText(new Date());
-var state={day:today,view:'appointments',period:'day',status:'全部',modal:null};
+var state={day:today,view:'appointments',period:'day',status:'全部',query:'',modal:null};
 var EMPTY={settings:{storeName:'于小喵宠物店',monthlyBudget:8000},staff:['小喵','于于'],tasks:[],appointments:[],flows:[],members:[],memberTransactions:[]};
 var db=load();
 function $(id){return document.getElementById(id)}
@@ -44,6 +44,7 @@ document.addEventListener('change',function(e){if(e.target.id==='appointmentDate
 window.addEventListener('error',function(e){console.error('Application error',e.error||e.message)});
 document.addEventListener('click',function(e){if(!e.target.closest('[data-action="voice"]'))return;e.preventDefault();e.stopImmediatePropagation();var R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){$('voiceHint').textContent='当前手机浏览器暂不支持语音识别';return}var r=new R();r.lang='zh-CN';r.onstart=function(){$('voiceHint').textContent='正在听，请说记账内容'};r.onresult=function(result){$('fnote').value=result.results[0][0].transcript;$('voiceHint').textContent='识别完成，请核对内容'};r.onerror=function(){$('voiceHint').textContent='识别失败，请重试或手动填写'};r.start()},true);
 $('appointmentDate').value=state.day;$('operationMonth').value=state.day.slice(0,7);renderToday();
+var _renderOrders=renderOrders;renderOrders=function(){if($('petSearch'))state.query=$('petSearch').value.trim();if(state.query){var original=state.period;state.period='year';_renderOrders();state.period=original}else _renderOrders()};if($('petSearch'))$('petSearch').addEventListener('input',renderOrders);if(document.querySelector('[data-action="today-orders"]'))document.querySelector('[data-action="today-orders"]').addEventListener('click',function(){$('appointmentDate').value=state.day;state.query='';$('petSearch').value='';state.period='day';renderOrders()});
 var originalOpen=open;open=function(type){if(type==='member')return show('新建会员','<div class="field"><label>会员姓名<input id="mname"></label></div><div class="field"><label>手机号<input id="mphone" type="tel"></label></div><button class="save" data-action="save-modal">保存会员</button>','member');return originalOpen(type)};
 var originalSaveModal=saveModal;saveModal=function(){if(state.modal&&state.modal.mode==='member'){var name=$('mname').value.trim(),phone=$('mphone').value.trim();if(!name||!phone)return toast('请填写会员姓名和手机号');if(db.members.some(function(m){return m.phone===phone}))return toast('该手机号已存在');db.members.push({id:Date.now(),name:name,phone:phone,balance:0,packages:[],createdAt:new Date().toISOString()});save();closeModal();render();toast('会员已创建');return}originalSaveModal()};
 $('memberSearch').addEventListener('input',renderMembers);
